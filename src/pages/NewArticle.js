@@ -4,12 +4,14 @@ import H1 from '../components/H1'
 import Input from '../components/Input'
 import Select from "../components/Select";
 import Textarea from "../components/Textarea";
+import { useNavigate } from "react-router-dom";
 
 import { postArticle } from '../api/articles'
 
 
 const NewArticle = () => {
 
+    const navigate = useNavigate()
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [category, setCategory] = useState('')
@@ -39,6 +41,7 @@ const NewArticle = () => {
 
         const data = await postArticle(body)
         console.log(data);
+        // navigate('/')
     }
 
     return (
