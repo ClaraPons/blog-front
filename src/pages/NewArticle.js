@@ -6,7 +6,7 @@ import Select from "../components/Select";
 import Textarea from "../components/Textarea";
 import { useNavigate } from "react-router-dom";
 
-import { postArticle } from '../api/articles'
+import { postArticle, createSelectOptions } from '../api/articles'
 
 
 const NewArticle = () => {
@@ -16,6 +16,11 @@ const NewArticle = () => {
     const [author, setAuthor] = useState('')
     const [category, setCategory] = useState('')
     const [content, setContent] = useState('')
+    const [options, setOptions] = useState('')
+
+    useEffect(() => {
+        fetchdateBis()
+    }, [])
 
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);
@@ -29,18 +34,39 @@ const NewArticle = () => {
         setContent(e.target.value)
     }
 
+    const handleChangeCat = (e) => {
+        setCategory(e.target.value)
+    }
+
+    const fetchdateBis = async () => {
+        const data = await createSelectOptions()
+        console.log(data);
+
+        let optionsMap = data.map((r) => {
+            return {
+                value: r.name, 
+                text: r.name
+            }
+        })
+
+        setOptions(optionsMap);
+
+    }
+
+    // console.log(options)
+
+
     const fetchdata = async (e) => {
         e.preventDefault()
 
         const body = {
             title, 
             author, 
-            category: "News",   
             content,  
         }
 
         const data = await postArticle(body)
-        console.log(data);
+        // console.log(data);
         // navigate('/')
     }
 
@@ -51,7 +77,7 @@ const NewArticle = () => {
                 <section className="flex flex-wrap gap-2.5 justify-center ">
                     <Input label="Title" type="text" placeholder="Enter Title" handleChange={handleChangeTitle} value={title}/>
                     <Input label="Author" type="text" placeholder="Enter Author" handleChange={handleChangeAuthor} value={author}/>
-                    <Select label="Categories"/>
+                    <Select label="Categories" handleChange={handleChangeCat} options={options} value={category}/>
                 </section>
                     <Textarea label="Article" placeholder="Your content..." handleChange={handleChangeContent} value={content}/>
                 <Button type="submit" text="Send" />

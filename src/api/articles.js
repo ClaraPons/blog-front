@@ -1,12 +1,12 @@
 const getArticles = async () => {
-    const request = await fetch (`http://localhost:5007/article/`)
+    const request = await fetch (`http://localhost:5007/articles/`)
     const response = await request.json()
 
     return response
 }
 
     const postArticle = async (body) => {
-        const request = await fetch(`http://localhost:5007/article/`, {
+        const request = await fetch(`http://localhost:5007/articles/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -19,4 +19,11 @@ const getArticles = async () => {
         console.log(response);
     }
 
-export { postArticle, getArticles}
+    const createSelectOptions = async () => {
+        const request = await fetch(`http://localhost:5007/categories/`)
+        const response = await request.json()
+
+        return response;
+    }
+
+export { postArticle, getArticles, createSelectOptions}
