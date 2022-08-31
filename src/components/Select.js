@@ -9,12 +9,9 @@ const Select = ({label, handleChange, options, value}) => {
 
                 <select onChange={handleChange} value={value} className="border border-slate-300 rounded w-[200px] p-1 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-500" name="cities" id="city-select">
                 <option value=''>Select an option</option>
-                <option value={options.value}>{options.text}</option>
-                        {/* {options.map((option) => {
-                            return (
-                                <option key={option.value} value={option.value}>{option.text}</option>
-                            )
-                        })} */}
+                        {options.map((option) => {
+                            return <option key={option.value} value={option.value}>{option.text}</option>
+                        })}
                 </select>
             </div>
         </section>

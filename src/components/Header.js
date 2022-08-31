@@ -10,7 +10,7 @@ const Header = () => {
         <Link to='/new-article' className='text-white bg-indigo-700 rounded px-3.5 py-1.5 hover:bg-indigo-800'>
           Create Article
         </Link>
-        <Link to='/Formulaire' className='text-white bg-indigo-700 rounded px-3.5 py-1.5 hover:bg-indigo-800'>
+        <Link to='/new-category' className='text-white bg-indigo-700 rounded px-3.5 py-1.5 hover:bg-indigo-800'>
           Create Category
         </Link>
       </nav>

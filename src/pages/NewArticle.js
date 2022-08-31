@@ -6,7 +6,8 @@ import Select from "../components/Select";
 import Textarea from "../components/Textarea";
 import { useNavigate } from "react-router-dom";
 
-import { postArticle, createSelectOptions } from '../api/articles'
+import { postArticle } from '../api/articles'
+import { createSelectOptions } from '../api/categorie'
 
 
 const NewArticle = () => {
@@ -16,7 +17,8 @@ const NewArticle = () => {
     const [author, setAuthor] = useState('')
     const [category, setCategory] = useState('')
     const [content, setContent] = useState('')
-    const [options, setOptions] = useState('')
+    const [options, setOptions] = useState([])
+    const [errors, setErrors] = useState([])
 
     useEffect(() => {
         fetchdateBis()
@@ -53,9 +55,6 @@ const NewArticle = () => {
 
     }
 
-    // console.log(options)
-
-
     const fetchdata = async (e) => {
         e.preventDefault()
 
@@ -63,11 +62,20 @@ const NewArticle = () => {
             title, 
             author, 
             content,  
+            category
         }
 
         const data = await postArticle(body)
-        // console.log(data);
-        // navigate('/')
+        // console.log(data.response);
+
+        if (data.status === 200) {
+            alert('Article created')
+            navigate('/')
+          } else {
+            setErrors(data.result)
+            console.log(errors);
+          }
+        
     }
 
     return (
@@ -75,11 +83,11 @@ const NewArticle = () => {
             <H1>Create a new article</H1> 
             <form onSubmit={fetchdata}>
                 <section className="flex flex-wrap gap-2.5 justify-center ">
-                    <Input label="Title" type="text" placeholder="Enter Title" handleChange={handleChangeTitle} value={title}/>
-                    <Input label="Author" type="text" placeholder="Enter Author" handleChange={handleChangeAuthor} value={author}/>
-                    <Select label="Categories" handleChange={handleChangeCat} options={options} value={category}/>
+                    <Input label="Title" type="text" placeholder="Enter Title" handleChange={handleChangeTitle} value={title} errors={errors.filter(error => error.param === 'title')} required/>
+                    <Input label="Author" type="text" placeholder="Enter Author" handleChange={handleChangeAuthor} value={author} errors={errors.filter(error => error.param === 'author')}/>
+                    <Select label="Categories" handleChange={handleChangeCat} options={options} value={category} />
                 </section>
-                    <Textarea label="Article" placeholder="Your content..." handleChange={handleChangeContent} value={content}/>
+                    <Textarea label="Article" placeholder="Your content..." handleChange={handleChangeContent} value={content} errors={errors.filter(error => error.param === 'content')}/>
                 <Button type="submit" text="Send" />
             </form>
         </>

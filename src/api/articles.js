@@ -16,14 +16,17 @@ const getArticles = async () => {
 
         const response = await request.json()
 
-        console.log(response);
+        return {
+            status: request.status,
+            result: response
+          }
     }
 
-    const createSelectOptions = async () => {
-        const request = await fetch(`http://localhost:5007/categories/`)
+    const getArticle = async (slug) => {
+        const request = await fetch (`http://localhost:5007/articles/${slug}`)
         const response = await request.json()
 
-        return response;
+        return response
     }
 
-export { postArticle, getArticles, createSelectOptions}
+export { postArticle, getArticles, getArticle}
